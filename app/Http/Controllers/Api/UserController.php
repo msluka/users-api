@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Services\WelcomeEmailService;
 
 class UserController extends Controller
 {
@@ -76,5 +77,15 @@ class UserController extends Controller
     {
         $user->delete();
         return response()->noContent();
+    }
+
+
+    public function sendWelcomeMessage(User $user)
+    {
+        (new WelcomeEmailService())->send($user);
+
+        return response()->json([
+            'message' => 'Welcome email sent to all user emails.'
+        ]);
     }
 }

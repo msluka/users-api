@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Services\WelcomeEmailService;
+use App\Http\Resources\UserResource;
 
 class UserController extends Controller
 {
@@ -14,7 +15,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        return User::with('emails')->get();
+        return UserResource::collection(User::with('emails')->get());
     }
 
     /**
@@ -35,7 +36,9 @@ class UserController extends Controller
             $user->emails()->create(['email' => $email]);
         }
 
-        return response()->json($user->load('emails'), 201);
+        return (new UserResource($user->load('emails')))
+            ->response()
+            ->setStatusCode(201);
     }
 
     /**
@@ -43,7 +46,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        return $user->load('emails');
+        return new UserResource($user->load('emails'));
     }
 
     /**
@@ -67,16 +70,27 @@ class UserController extends Controller
             }
         }
 
-        return $user->load('emails');
+        return new UserResource($user->load('emails'));
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $user)
+    public function destroy($id)
     {
+        $user = User::find($id);
+
+        if (! $user) {
+            return response()->json([
+                'message' => "User with ID $id not found."
+            ], 404);
+        }
+
         $user->delete();
-        return response()->noContent();
+
+        return response()->json([
+            'message' => "User with ID $id successfully deleted."
+        ], 200);
     }
 
 

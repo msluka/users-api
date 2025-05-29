@@ -6,6 +6,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Models\Email;
 
 class User extends Authenticatable
 {
@@ -18,9 +20,9 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'name',
-        'email',
-        'password',
+        'firstname',
+        'lastname',
+        'phone_number',
     ];
 
     /**
@@ -31,7 +33,14 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'email',
+        'email_verified_at'
     ];
+
+    public function emails() : HasMany
+    {
+        return $this->hasMany(Email::class);
+    }
 
     /**
      * Get the attributes that should be cast.

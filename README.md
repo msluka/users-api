@@ -1,10 +1,13 @@
-**REST API Dokumentacja – Użytkownicy (/api/users)**
+
+### Dokumentacja REST API - Użytkownicy (/api/users)
+
 API nie wymaga rejestracji ani autoryzacji. 
 Wszystkie zasoby są dostępne publicznie — każdy użytkownik może tworzyć, edytować, aktualizować i usuwać dane.
 
-1. GET /api/users
-**Zwraca listę wszystkich użytkowników wraz z ich adresami e-mail**.
-**Przykładowa odpowiedź:**
+### GET /api/users
+Zwraca listę wszystkich użytkowników wraz z ich adresami e-mail.
+- Przykładowa odpowiedź:
+```json
 [
   {
     "id": 1,
@@ -17,10 +20,12 @@ Wszystkie zasoby są dostępne publicznie — każdy użytkownik może tworzyć,
     ]
   }
 ]
+```
 
-2. POST /api/users
-**Tworzy nowego użytkownika z wieloma adresami e-mail.**
-**Przykładowe dane wejściowe:**
+### POST /api/users
+Tworzy nowego użytkownika z wieloma adresami e-mail.
+- Przykładowe dane wejściowe:
+```json
 {
   "firstname": "John",
   "lastname": "Doe",
@@ -30,11 +35,12 @@ Wszystkie zasoby są dostępne publicznie — każdy użytkownik może tworzyć,
     "john.doe@example.com"
   ]
 }
-
-Walidacja:
-firstname, lastname, phone_number – wymagane, tekstowe
-emails – tablica e-maili (wymagany)
-Odpowiedź: 201 Created
+```
+**Walidacja:**
+- firstname, lastname, phone_number – wymagane, tekstowe
+- emails – tablica e-maili (wymagany)
+- Odpowiedź: 201 Created
+```json
 {
   "id": 2,
   "firstname": "John",
@@ -45,11 +51,11 @@ Odpowiedź: 201 Created
     {"email": "john.doe@example.com"}
   ]
 }
-
-3. GET /api/users/{id}
-**Zwraca szczegóły jednego użytkownika wraz z adresami e-mail.**
-
-Odpowiedź:
+```
+### GET /api/users/{id}
+Zwraca szczegóły jednego użytkownika wraz z adresami e-mail.
+- Przykładowa odpowiedź:
+```json
 {
   "id": 2,
   "firstname": "John",
@@ -60,23 +66,24 @@ Odpowiedź:
     {"email": "john.doe@example.com"}
   ]
 }
-
-4. PUT /api/users/{id}
-**Aktualizuje dane użytkownika i jego adresy e-mail.**
-
-Body (JSON, przykładowo):
+```
+### PUT /api/users/{id}
+Aktualizuje dane użytkownika i jego adresy e-mail.
+- Body (JSON, przykładowo):
+```json
 {
   "firstname": "Jan",
   "emails": [
     "jan.nowy@example.com"
   ]
 }
-
-Uwagi:
+```
+**Uwagi:**
 Wszystkie pola są opcjonalne, ale jeśli podane – muszą spełniać walidację.
 Jeśli podano emails, poprzednie adresy e-mail są usuwane i zastępowane nowymi.
 
-Odpowiedź:
+- Odpowiedź:
+```json
 {
   "id": 2,
   "firstname": "Jan",
@@ -86,31 +93,32 @@ Odpowiedź:
     {"email": "jan.nowy@example.com"}
   ]
 }
-
-5. DELETE /api/users/{id}
-**Usuwa użytkownika o podanym ID.**
-
-Odpowiedź: 200 OK
+```
+### DELETE /api/users/{id}
+Usuwa użytkownika o podanym ID.
+- Odpowiedź: 200 OK
+```json
 {
   "message": "User with ID 2 successfully deleted."
 }
-
-Błąd: 404 Not Found
+```
+- Błąd: 404 Not Found
+```json
 {
   "message": "User with ID 999 not found."
 }
-
-6. POST /api/users/{id}/welcome
-**Wysyła wiadomość powitalną do wszystkich adresów e-mail użytkownika.**
-
-Odpowiedź:
+```
+### POST /api/users/{id}/welcome
+Wysyła wiadomość powitalną do wszystkich adresów e-mail użytkownika.
+- Odpowiedź:
+```json
 {
   "message": "Welcome email sent to all user emails."
 }
+```
+#### Uwagi techniczne
+- Wszystkie odpowiedzi korzystają z klasy UserResource, która formatuje dane użytkownika i jego relację emails.
 
-**Uwagi techniczne**
-Wszystkie odpowiedzi korzystają z klasy UserResource, która formatuje dane użytkownika i jego relację emails.
+- Walidacja odbywa się na poziomie kontrolera.
 
-Walidacja odbywa się na poziomie kontrolera.
-
-Akcja sendWelcomeMessage używa serwisu WelcomeEmailService do wysyłki wiadomości powitalnej.
+- Akcja sendWelcomeMessage używa serwisu WelcomeEmailService do wysyłki wiadomości powitalnej.

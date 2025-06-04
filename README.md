@@ -15,8 +15,8 @@ Zwraca listę wszystkich użytkowników wraz z ich adresami e-mail.
     "lastname": "Doe",
     "phone_number": "123456789",
     "emails": [
-      {"email": "john@example.com"},
-      {"email": "john.doe@example.com"}
+      "john@example.com",
+      "john.doe@example.com"
     ]
   }
 ]
@@ -47,8 +47,8 @@ Tworzy nowego użytkownika z wieloma adresami e-mail.
   "lastname": "Doe",
   "phone_number": "123456789",
   "emails": [
-    {"email": "john@example.com"},
-    {"email": "john.doe@example.com"}
+    "john@example.com",
+    "john.doe@example.com"
   ]
 }
 ```
@@ -62,8 +62,8 @@ Zwraca szczegóły jednego użytkownika wraz z adresami e-mail.
   "lastname": "Doe",
   "phone_number": "123456789",
   "emails": [
-    {"email": "john@example.com"},
-    {"email": "john.doe@example.com"}
+    "john@example.com",
+    "john.doe@example.com"
   ]
 }
 ```
@@ -90,7 +90,7 @@ Jeśli podano emails, poprzednie adresy e-mail są usuwane i zastępowane nowymi
   "lastname": "Doe",
   "phone_number": "123456789",
   "emails": [
-    {"email": "jan.nowy@example.com"}
+    "jan.nowy@example.com"
   ]
 }
 ```
